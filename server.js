@@ -1,6 +1,6 @@
 const express = require("express")
 const fetch = require("node-fetch")
-
+require("dotenv").config()
 const app = express()
 const router = express.Router()
 
@@ -10,10 +10,11 @@ const sailthru = require("sailthru-client").createSailthruClient(apiKey, apiSecr
 
 const port = process.env.PORT || 8082
 
-app.use("/list", 
+app.use("/list",    
     router.get("/:list", async (req, res) => {
         const listName = req.params.list
-        sailthru.apiGet("list", {
+        sailthru.apiGet("stats", {
+            stat: "list",
             list: listName
         }, (err, listRes) => {
             if (err) {
@@ -21,7 +22,11 @@ app.use("/list",
                 return res.status(404).json(err)
             }
 
-            const message = `List: ${listRes.list}; total users: ${listRes.count}`
+            const message = 
+            `List: ${listRes.list};
+            Total users: ${listRes.email_count};
+            New signups: ${listRes.lists_signup_count};
+            New removals: ${listRes.lists_remove_count}`
 
             fetch(process.env.SLACK_URL, {
                 method: "POST",
