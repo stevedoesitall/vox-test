@@ -18,6 +18,7 @@ app.use("/list",
             list: listName
         }, (err, listRes) => {
             if (err) {
+                console.log("ERROR", err)
                 return res.status(404).json(err)
             }
 
