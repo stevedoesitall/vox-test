@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "nodemon",
-    "start": "node"
+    "start": "node server.js",
+    "git_full": "git init && git status && git add . && git commit -m 'Latest updates' && git push"
   },
   "author": "",
   "license": "ISC",
