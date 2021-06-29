@@ -1,18 +1,40 @@
 const express = require("express")
 const fetch = require("node-fetch")
+
 require("dotenv").config()
+
 const app = express()
 const router = express.Router()
-
-const apiKey = process.env.API_KEY
-const apiSecret = process.env.API_SECRET
-const sailthru = require("sailthru-client").createSailthruClient(apiKey, apiSecret)
 
 const port = process.env.PORT || 8082
 
 app.use("/list",    
-    router.get("/:list", async (req, res) => {
-        const listName = req.params.list
+    router.get("/", async (req, res) => {
+        const listName = req.query.list
+        const brandName = req.query.brand
+
+        let apiKey
+        let apiSecret
+
+        //Switch between API credentials depending on the brand param
+        switch (brandName) {
+            case "Brand 1":
+                apiKey = process.env.BRAND_1_API_KEY
+                apiSecret = process.env.BRAND_1_API_SECRET
+                break
+
+            case "Brand 2":
+                apiKey = process.env.BRAND_2_API_KEY
+                apiSecret = process.env.BRAND_2_API_SECRET
+                break
+            
+            default:
+                apiKey = process.env.API_KEY
+                apiSecret = process.env.API_SECRET
+        }
+
+        const sailthru = require("sailthru-client").createSailthruClient(apiKey, apiSecret)
+
         sailthru.apiGet("stats", {
             stat: "list",
             list: listName
