@@ -45,7 +45,9 @@ app.use("/list",
             }
 
             const message = 
-            `List: ${listRes.list};
+            `
+            Date: ${listRes.count_time};
+            List: ${listRes.list};
             Total users: ${listRes.email_count};
             New signups: ${listRes.lists_signup_count};
             New removals: ${listRes.lists_remove_count}`
