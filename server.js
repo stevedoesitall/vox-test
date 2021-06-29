@@ -9,7 +9,7 @@ const router = express.Router()
 const port = process.env.PORT || 8082
 
 app.use("/list",    
-    router.get("/", async (req, res) => {
+    router.get("/", (req, res) => {
         const listName = req.query.list
         const brandName = req.query.brand
 
